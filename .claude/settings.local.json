@@ -9,7 +9,8 @@
       "Bash(npx expo start:*)",
       "Bash(npm install:*)",
       "Bash(curl:*)",
-      "Bash(xcrun simctl openurl:*)"
+      "Bash(xcrun simctl openurl:*)",
+      "Bash(xcrun simctl terminate booted host.exp.Exponent)"
     ]
   }
 }
