@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { AppProvider } from '../contexts/AppContext';
 import { Colors } from '../constants/colors';
 import { initAnalytics } from '../utils/analytics';
+import 'expo-insights';
 
 export default function RootLayout() {
   useEffect(() => {
