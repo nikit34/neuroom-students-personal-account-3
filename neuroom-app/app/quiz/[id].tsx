@@ -36,6 +36,7 @@ import { Badge } from '../../components/ui/Badge';
 import { Colors } from '../../constants/colors';
 import { mockQuizzes } from '../../constants/mockData';
 import { useApp } from '../../contexts/AppContext';
+import { trackEvent, trackScreen } from '../../utils/analytics';
 
 type QuizState = 'question' | 'explanation' | 'results';
 
@@ -50,6 +51,11 @@ export default function QuizScreen() {
   const [quizState, setQuizState] = useState<QuizState>('question');
   const [correctCount, setCorrectCount] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    trackScreen('quiz');
+    trackEvent('quiz_started', { topic: quiz?.topic ?? '', assignmentId: id! });
+  }, []);
 
   if (!quiz) {
     return (
@@ -81,6 +87,7 @@ export default function QuizScreen() {
     if (selectedOption !== null) return;
     setSelectedOption(index);
     const correct = index === question.correctIndex;
+    trackEvent('quiz_answer', { correct, difficulty: question.difficulty, questionIndex: currentIndex });
     if (correct) setCorrectCount((c) => c + 1);
     setAnswers([...answers, correct]);
 
@@ -96,13 +103,14 @@ export default function QuizScreen() {
       setQuizState('question');
     } else {
       setQuizState('results');
+      trackEvent('quiz_completed', { topic: quiz.topic, correctCount, total: quiz.questions.length });
 
-      // Earn achievement if 80%+ correct
-      const total = correctCount + (isCorrect ? 0 : 0); // already counted
+      // Earn achievement if 60%+ correct
       const achievement = state.achievements.find(
         (a) => a.topic === quiz.topic && !a.earnedAt,
       );
       if (achievement && correctCount / quiz.questions.length >= 0.6) {
+        trackEvent('achievement_earned', { topic: quiz.topic });
         dispatch({
           type: 'UPDATE_ACHIEVEMENT',
           payload: {

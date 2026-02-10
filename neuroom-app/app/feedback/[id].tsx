@@ -9,6 +9,7 @@ import { Button } from '../../components/ui/Button';
 import { Colors } from '../../constants/colors';
 import { mockFeedback, subjectNames } from '../../constants/mockData';
 import { getGradeLabel } from '../../utils/helpers';
+import { trackEvent, trackScreen } from '../../utils/analytics';
 
 export default function FeedbackScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -17,6 +18,11 @@ export default function FeedbackScreen() {
 
   const assignment = state.assignments.find((a) => a.id === id);
   const feedback = mockFeedback[id!];
+
+  React.useEffect(() => {
+    trackScreen('feedback');
+    trackEvent('feedback_viewed', { assignmentId: id!, grade: feedback?.grade ?? 0 });
+  }, []);
 
   if (!assignment || !feedback) {
     return (
@@ -115,7 +121,7 @@ export default function FeedbackScreen() {
           </Text>
           <Button
             title="Перейти к AI-репетитору"
-            onPress={() => router.push(`/tutor/${id}`)}
+            onPress={() => { trackEvent('ai_tutor_opened', { assignmentId: id!, source: 'feedback_cta' }); router.push(`/tutor/${id}`); }}
             variant="secondary"
             size="large"
             icon={<Ionicons name="sparkles-outline" size={20} color={Colors.primary} />}

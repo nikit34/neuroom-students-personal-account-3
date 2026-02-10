@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { AppProvider } from '../contexts/AppContext';
 import { Colors } from '../constants/colors';
+import { initAnalytics } from '../utils/analytics';
 
 export default function RootLayout() {
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <AppProvider>
       <StatusBar style="dark" />

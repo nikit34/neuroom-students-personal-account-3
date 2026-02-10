@@ -14,7 +14,9 @@
       "Bash(lsof:*)",
       "Bash(xargs:*)",
       "Bash(npx eas update:*)",
-      "Bash(npx eas-cli update:*)"
+      "Bash(npx eas-cli update:*)",
+      "Bash(npx:*)",
+      "Bash(./node_modules/.bin/tsc:*)"
     ]
   }
 }

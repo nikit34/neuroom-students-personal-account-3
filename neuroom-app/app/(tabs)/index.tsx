@@ -5,10 +5,13 @@ import { useApp } from '../../contexts/AppContext';
 import { AssignmentCard } from '../../components/AssignmentCard';
 import { Colors } from '../../constants/colors';
 import { isNeedsAttention, isCurrentAssignment } from '../../utils/helpers';
+import { trackScreen } from '../../utils/analytics';
 
 export default function HomeScreen() {
   const { state, dispatch } = useApp();
   const [refreshing, setRefreshing] = React.useState(false);
+
+  React.useEffect(() => { trackScreen('home'); }, []);
 
   // If parent mode, switch back to student
   React.useEffect(() => {

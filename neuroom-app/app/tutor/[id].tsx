@@ -18,6 +18,7 @@ import { Button } from '../../components/ui/Button';
 import { Colors } from '../../constants/colors';
 import { mockSuggestedQuestions, mockFeedback } from '../../constants/mockData';
 import { ChatMessage } from '../../types';
+import { trackEvent, trackScreen } from '../../utils/analytics';
 
 const aiResponses: Record<string, string> = {
   default:
@@ -52,8 +53,11 @@ export default function TutorScreen() {
   const [isTyping, setIsTyping] = useState(false);
   const feedback = mockFeedback[id!];
 
+  React.useEffect(() => { trackScreen('ai_tutor'); }, []);
+
   const sendMessage = (text: string) => {
     if (!text.trim()) return;
+    trackEvent('ai_tutor_message_sent', { assignmentId: id! });
 
     const userMsg: ChatMessage = {
       id: `msg-${Date.now()}`,

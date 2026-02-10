@@ -11,6 +11,7 @@ import { PhotoUploader } from '../../components/PhotoUploader';
 import { Colors } from '../../constants/colors';
 import { subjectNames, statusLabels, statusColors } from '../../constants/mockData';
 import { formatDate, formatDateTime, generateParentLink, getDaysLeft } from '../../utils/helpers';
+import { trackEvent, trackScreen } from '../../utils/analytics';
 
 export default function AssignmentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -23,6 +24,11 @@ export default function AssignmentDetailScreen() {
   );
   const [linkCopied, setLinkCopied] = useState(false);
   const [sending, setSending] = useState(false);
+
+  React.useEffect(() => {
+    trackScreen('assignment_detail');
+    trackEvent('assignment_opened', { assignmentId: id!, subject: assignment?.subject ?? '' });
+  }, []);
 
   if (!assignment) {
     return (
@@ -37,6 +43,7 @@ export default function AssignmentDetailScreen() {
   const lastVersion = assignment.versions[assignment.versions.length - 1];
 
   const handlePhotoSelected = (uri: string) => {
+    trackEvent('photo_uploaded', { assignmentId: id!, subject: assignment.subject });
     setPhotoUri(uri);
     const updatedAssignment = {
       ...assignment,
@@ -60,6 +67,7 @@ export default function AssignmentDetailScreen() {
   };
 
   const handleSendToParent = async () => {
+    trackEvent('sent_to_parent', { assignmentId: id! });
     const link = generateParentLink();
     const updatedAssignment = {
       ...assignment,
@@ -70,6 +78,7 @@ export default function AssignmentDetailScreen() {
   };
 
   const handleCopyLink = async () => {
+    trackEvent('parent_link_copied', { assignmentId: id! });
     if (assignment.parentLink) {
       await Clipboard.setStringAsync(assignment.parentLink);
       setLinkCopied(true);
@@ -78,6 +87,7 @@ export default function AssignmentDetailScreen() {
   };
 
   const handleSendToTeacher = () => {
+    trackEvent('sent_to_teacher', { assignmentId: id! });
     setSending(true);
     setTimeout(() => {
       const updatedAssignment = {

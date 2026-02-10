@@ -9,6 +9,7 @@ import { subjectNames } from '../../constants/mockData';
 import { formatDate, getGradeLabel, getGradeCategory } from '../../utils/helpers';
 import { Grade, Subject } from '../../types';
 import Svg, { Path, Circle as SvgCircle, Line } from 'react-native-svg';
+import { trackEvent, trackScreen } from '../../utils/analytics';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -59,6 +60,9 @@ export default function GradesScreen() {
 
   // Switch to parent mode
   React.useEffect(() => {
+    trackScreen('grades');
+    trackEvent('grades_viewed');
+    trackEvent('parent_mode_entered');
     if (state.mode !== 'parent') {
       dispatch({ type: 'TOGGLE_MODE' });
     }
