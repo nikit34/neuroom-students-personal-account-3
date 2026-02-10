@@ -18,7 +18,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Нейрум использует камеру для фотографирования решений домашних заданий",
         "NSPhotoLibraryUsageDescription": "Нейрум использует фотогалерею для загрузки решений домашних заданий"
-      }
+      },
+      "bundleIdentifier": "com.anonymous.neuroomapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +27,13 @@
         "backgroundColor": "#FAF5FF"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": ["android.permission.CAMERA"]
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.neuroomapp"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -39,7 +46,21 @@
         {
           "cameraPermission": "Нейрум использует камеру для фотографирования решений"
         }
-      ]
-    ]
+      ],
+      "expo-insights"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "bbbc3e46-ba27-43b3-8de9-cfd0b91facca"
+      }
+    },
+    "owner": "nikit34",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bbbc3e46-ba27-43b3-8de9-cfd0b91facca"
+    }
   }
 }
