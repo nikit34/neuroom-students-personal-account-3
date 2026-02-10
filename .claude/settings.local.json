@@ -10,7 +10,9 @@
       "Bash(npm install:*)",
       "Bash(curl:*)",
       "Bash(xcrun simctl openurl:*)",
-      "Bash(xcrun simctl terminate booted host.exp.Exponent)"
+      "Bash(xcrun simctl terminate booted host.exp.Exponent)",
+      "Bash(lsof:*)",
+      "Bash(xargs:*)"
     ]
   }
 }
