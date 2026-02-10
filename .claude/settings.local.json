@@ -12,7 +12,8 @@
       "Bash(xcrun simctl openurl:*)",
       "Bash(xcrun simctl terminate booted host.exp.Exponent)",
       "Bash(lsof:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(npx eas update:*)"
     ]
   }
 }
