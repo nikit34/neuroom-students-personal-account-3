@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-expo-app@latest:*)",
+      "Bash(npx expo install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx expo export:*)",
+      "Bash(node -e:*)",
+      "Bash(npx expo start:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(xcrun simctl openurl:*)"
+    ]
+  }
+}
