@@ -13,7 +13,8 @@
       "Bash(xcrun simctl terminate booted host.exp.Exponent)",
       "Bash(lsof:*)",
       "Bash(xargs:*)",
-      "Bash(npx eas update:*)"
+      "Bash(npx eas update:*)",
+      "Bash(npx eas-cli update:*)"
     ]
   }
 }
