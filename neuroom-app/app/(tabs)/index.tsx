@@ -8,17 +8,10 @@ import { isNeedsAttention, isCurrentAssignment } from '../../utils/helpers';
 import { trackScreen } from '../../utils/analytics';
 
 export default function HomeScreen() {
-  const { state, dispatch } = useApp();
+  const { state } = useApp();
   const [refreshing, setRefreshing] = React.useState(false);
 
   React.useEffect(() => { trackScreen('home'); }, []);
-
-  // If parent mode, switch back to student
-  React.useEffect(() => {
-    if (state.mode === 'parent') {
-      dispatch({ type: 'TOGGLE_MODE' });
-    }
-  }, []);
 
   const attentionAssignments = state.assignments.filter((a) => isNeedsAttention(a.status));
   const currentAssignments = state.assignments.filter((a) => isCurrentAssignment(a.status));

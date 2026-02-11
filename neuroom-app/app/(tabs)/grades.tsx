@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useApp } from '../../contexts/AppContext';
 import { Card } from '../../components/ui/Card';
 import { Colors } from '../../constants/colors';
@@ -57,14 +58,13 @@ function MiniChart({ grades }: { grades: Grade[] }) {
 
 export default function GradesScreen() {
   const { state, dispatch } = useApp();
+  const router = useRouter();
 
-  // Switch to parent mode
   React.useEffect(() => {
     trackScreen('grades');
     trackEvent('grades_viewed');
-    trackEvent('parent_mode_entered');
-    if (state.mode !== 'parent') {
-      dispatch({ type: 'TOGGLE_MODE' });
+    if (state.mode === 'parent') {
+      trackEvent('parent_mode_entered');
     }
   }, []);
 
@@ -92,20 +92,56 @@ export default function GradesScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.modeBar}>
-        <LinearGradient
-          colors={[Colors.gradientStart, Colors.gradientEnd]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.modeBadge}
-        >
-          <Ionicons name="person" size={14} color="#FFF" />
-          <Text style={styles.modeText}>Режим родителя</Text>
-        </LinearGradient>
         <TouchableOpacity
-          onPress={() => dispatch({ type: 'TOGGLE_MODE' })}
-          style={styles.switchButton}
+          activeOpacity={state.mode === 'parent' ? 1 : 0.7}
+          onPress={() => {
+            if (state.mode !== 'parent') {
+              dispatch({ type: 'SET_MODE', payload: 'parent' });
+              trackEvent('parent_mode_entered');
+            }
+          }}
         >
-          <Text style={styles.switchText}>Режим ученика</Text>
+          {state.mode === 'parent' ? (
+            <LinearGradient
+              colors={[Colors.gradientStart, Colors.gradientEnd]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.modeBadge}
+            >
+              <Ionicons name="person" size={14} color="#FFF" />
+              <Text style={styles.modeText}>Режим родителя</Text>
+            </LinearGradient>
+          ) : (
+            <View style={styles.switchButton}>
+              <Text style={styles.switchText}>Режим родителя</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={state.mode === 'student' ? 1 : 0.7}
+          onPress={() => {
+            if (state.mode !== 'student') {
+              dispatch({ type: 'SET_MODE', payload: 'student' });
+              router.replace('/(tabs)/');
+            }
+          }}
+        >
+          {state.mode === 'student' ? (
+            <LinearGradient
+              colors={[Colors.gradientStart, Colors.gradientEnd]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.modeBadge}
+            >
+              <Ionicons name="school" size={14} color="#FFF" />
+              <Text style={styles.modeText}>Режим ученика</Text>
+            </LinearGradient>
+          ) : (
+            <View style={styles.switchButton}>
+              <Text style={styles.switchText}>Режим ученика</Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
 

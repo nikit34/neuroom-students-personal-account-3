@@ -12,6 +12,7 @@ interface AppState {
 
 type Action =
   | { type: 'TOGGLE_MODE' }
+  | { type: 'SET_MODE'; payload: AppMode }
   | { type: 'UPDATE_ASSIGNMENT'; payload: Assignment }
   | { type: 'ADD_CHAT_MESSAGE'; payload: { assignmentId: string; message: ChatMessage } }
   | { type: 'EARN_ACHIEVEMENT'; payload: string }
@@ -29,6 +30,8 @@ function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'TOGGLE_MODE':
       return { ...state, mode: state.mode === 'student' ? 'parent' : 'student' };
+    case 'SET_MODE':
+      return { ...state, mode: action.payload };
     case 'UPDATE_ASSIGNMENT':
       return {
         ...state,
