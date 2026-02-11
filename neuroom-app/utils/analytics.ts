@@ -14,7 +14,7 @@
 import PostHog from 'posthog-react-native';
 
 // TODO: Replace with your PostHog API key
-const POSTHOG_API_KEY = 'phx_dWsQjv7HnhyQmUO75whOek8IDPS3RP8HQb8MBCbNir4OuUq';
+const POSTHOG_API_KEY = 'phc_N4PSonBY0k9Pgb1FGUZjyPOSxXbRYqw98BCBoXpAog9';
 const POSTHOG_HOST = 'https://app.posthog.com';
 
 let posthog: PostHog | null = null;
